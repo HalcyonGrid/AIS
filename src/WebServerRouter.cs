@@ -7,12 +7,12 @@ namespace SimpleWebServer
 
     public class WebServerRoute
     {
-        public string method { get; set; }
-        public string path { get; set; }
-        public RouteHandler handler { get; set; }
+        public string Method { get; set; }
+        public string Path { get; set; }
+        public RouteHandler Handler { get; set; }
 
         public WebServerRoute(string m, string p, RouteHandler h)
-        { method = m; path = p; handler = h; }
+        { Method = m; Path = p; Handler = h; }
     }
 
     public class WebServerRouter
@@ -73,11 +73,11 @@ namespace SimpleWebServer
             foreach (var route in _routes)
             {
                 // HTTP request method must match or be "ALL" in the route.
-                if (string.Compare(route.method, "ALL", true) != 0)
-                    if (string.Compare(request.HttpMethod, route.method, true) != 0)
+                if (string.Compare(route.Method, "ALL", true) != 0)
+                    if (string.Compare(request.HttpMethod, route.Method, true) != 0)
                         continue;
 
-                string[] routeParts = ParsePathForParts(route.path);
+                string[] routeParts = ParsePathForParts(route.Path);
                 if (routeParts.Length != urlParts.Length)
                     continue;
 
@@ -119,7 +119,7 @@ namespace SimpleWebServer
             if (route == null)
                 WebServer.SetResponse(response, HttpStatusCode.NotFound, "");
             else
-                route.handler(request, matches, response);
+                route.Handler(request, matches, response);
         }
 
     }
