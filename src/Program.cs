@@ -18,7 +18,7 @@ namespace AIS
             new WebServerRoute("GET", "/test2/{arg}/", GetResponse2)
         };
 
-        private static void GetResponse1(HttpListenerRequest request, List<string> requestParts, HttpListenerResponse response)
+        private static void GetResponse1(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat("<HTML><BODY><h1>First page 1.</h1><p>{0}</p><p></p>", DateTime.Now);
@@ -31,7 +31,7 @@ namespace AIS
             WebServer.SetResponse(response, sb.ToString());
         }
 
-        private static void GetResponse2(HttpListenerRequest request, List<string> requestParts, HttpListenerResponse response)
+        private static void GetResponse2(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat("<HTML><BODY><h1>Second page 2.</h1><p>{0}</p><p></p>", DateTime.Now);
@@ -50,7 +50,6 @@ namespace AIS
             Console.WriteLine("Shutdown requested.");
             args.Cancel = true;    // don't pass the key on
             _router.Server.Stop();
-            Console.WriteLine("Router stopped.");
             _isActive = false;  // hop out of the console loop below
         }
 
