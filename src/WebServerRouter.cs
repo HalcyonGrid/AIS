@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace SimpleWebServer
@@ -21,33 +22,63 @@ namespace SimpleWebServer
         private const string _default_scheme = "http";
         private const string _default_host = "+";       // all local hosts
         private const uint _default_port = 80;
+        private string _routeBase = null;
+        private List<WebServerRoute> _routes = new List<WebServerRoute>();
+        private WebServer _server = null;
 
         private char[] _separators = new char[] { '/' };
 
-        private string _routeBase = null;
-        private WebServerRoute[] _routes = null;
-        private WebServer _server = null;
-
-        public WebServerRouter(string routeBase, WebServerRoute[] routes)
+        public WebServerRouter(string routeBase)
         {
-            if ((routes == null) || (routeBase == null))
-                throw new System.ArgumentException("WebServerRouter");
+            if (routeBase == null)
+                throw new System.ArgumentException("routeBase");
 
             _routeBase = routeBase;
-            _routes = routes;
-
-            _server = new WebServer(Router, new string[] { _routeBase+"/" });
+            _server = new WebServer(Router, new string[] { _routeBase + "/" });
         }
 
-        public WebServerRouter(string scheme, string host, uint port, WebServerRoute[] routes) : this($"{scheme}://{host}:{port}", routes) { }
-        public WebServerRouter(string scheme, uint port, WebServerRoute[] routes) : this(scheme, _default_host, port, routes) { }
-        public WebServerRouter(uint port, WebServerRoute[] routes) : this(_default_scheme, _default_host, port, routes) { }
-
-        public WebServerRouter(WebServerRoute[] routes) : this(_default_scheme, _default_host, _default_port, routes) { }
+        public WebServerRouter(string scheme, string host, uint port) : this($"{scheme}://{host}:{port}") { }
+        public WebServerRouter(string scheme, uint port) : this(scheme, _default_host, port) { }
+        public WebServerRouter(uint port) : this(_default_scheme, _default_host, port) { }
+        public WebServerRouter() : this(_default_scheme, _default_host, _default_port) { }
 
         public WebServer Server
         {
             get { return _server; }
+        }
+
+        public void AddRoutes(WebServerRoute[] routes)
+        {
+            if (routes == null)
+                throw new System.ArgumentException("routes");
+
+            foreach (var route in routes)
+                _routes.Add(route);
+        }
+        public void AddRoutes(List<WebServerRoute> routes)
+        {
+            if (routes == null)
+                throw new System.ArgumentException("routes");
+
+            foreach (var route in routes)
+                _routes.Add(route);
+        }
+        public void AddRoute(WebServerRoute route)
+        {
+            _routes.Add(route);
+        }
+        public void AddRoute(string method, string path, RouteHandler handler)
+        {
+            AddRoute(new WebServerRoute(method, path, handler));
+        }
+
+        private void AddTestRoutes()
+        {
+            // Some routes for testing the REST API
+            AddRoute("GET", "/test/", _server.SendGenericResponse);
+            AddRoute("GET", "/test/{arg}", _server.SendGenericResponse);
+            AddRoute("GET", "/test/{arg}/{arg2}", _server.SendGenericResponse);
+            AddRoute("GET", "/test/{arg}/{arg2}/{arg3}", _server.SendGenericResponse);
         }
 
         private string[] ParsePathForParts(string path)
@@ -115,6 +146,21 @@ namespace SimpleWebServer
             return null;
         }
 
+        public bool IsRunning
+        {
+            get { return (_server == null) ? false : _server.IsRunning; }
+        }
+
+        public void Run()
+        {
+            AddTestRoutes();
+
+            Console.WriteLine("Starting server with routes:");
+            foreach (var route in _routes)
+                Console.WriteLine("  " + route.Method + " " + route.Path);
+            _server.Run();
+        }
+
         public void Router(HttpListenerRequest request, HttpListenerResponse response)
         {
             string[] matches;
@@ -124,7 +170,5 @@ namespace SimpleWebServer
             else
                 route.Handler(request, matches, response);
         }
-
     }
-
 }

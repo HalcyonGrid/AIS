@@ -25,11 +25,12 @@ namespace SimpleWebServer
             if (handler == null)
                 throw new ArgumentException("callback");
 
+            Console.CancelKeyPress += new ConsoleCancelEventHandler(CtrlBreakHandler);
+
             foreach (string s in prefixes)
                 _listener.Prefixes.Add(s);
 
             _handler = handler;
-            _listener.Start();
         }
 
         static public void SetResponse(HttpListenerResponse response, HttpStatusCode status, string content)
@@ -47,8 +48,35 @@ namespace SimpleWebServer
             SetResponse(response, HttpStatusCode.OK, content);
         }
 
+        public void SendGenericResponse(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("<HTML><BODY><h1>Generic Handler</h1><p>{0}</p><p></p>", DateTime.Now);
+            int x = 0;
+            foreach (var part in requestParts)
+            {
+                sb.AppendFormat("<div><code>[{0}] is {1}</code></div>", x++, part);
+            }
+            sb.Append("</BODY></HTML>");
+            WebServer.SetResponse(response, sb.ToString());
+        }
+
+        protected void CtrlBreakHandler(object sender, ConsoleCancelEventArgs args)
+        {
+            Console.WriteLine("Shutdown requested.");
+            args.Cancel = true;    // don't pass the key on
+            Stop();
+        }
+
+        public bool IsRunning
+        {
+            get { return (_listener == null) ? false : _listener.IsListening; }
+        }
+
         public void Run()
         {
+            _listener.Start();
+
             ThreadPool.QueueUserWorkItem((o) =>
             {
                 try

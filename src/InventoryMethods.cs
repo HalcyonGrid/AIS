@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using OpenMetaverse;
 using OpenSim.Data;
 using InWorldz.Data.Inventory.Cassandra;
@@ -8,19 +9,38 @@ namespace AIS
 {
     class InventoryMethods
     {
-        private static UUID _Id;
+        private UUID _Id;
 
-        private static IInventoryStorage _storage;
+        private IInventoryStorage _storage;
 
-        private static InventoryStorage _cassandraStorage;
-        private static CassandraMigrationProviderSelector _selector;
+        private InventoryStorage _cassandraStorage;
+        private CassandraMigrationProviderSelector _selector;
+
+        public InventoryMethods()
+        {
+        }
+
+        public void AddRoutes(WebServerRouter router)
+        {
+            WebServerRoute[] inventoryRoutes =
+            {
+                new WebServerRoute("ALL", "/category/{category}",            HandleCategory),
+                new WebServerRoute("ALL", "/category/{category}/children",   HandleCategoryChildren),
+                new WebServerRoute("ALL", "/category/{category}/links",      HandleCategoryLinks),
+                new WebServerRoute("ALL", "/category/{category}/items",      HandleCategoryItems),
+                new WebServerRoute("ALL", "/category/{category}/categories", HandleCategoryCategories),
+                new WebServerRoute("ALL", "/item/{item}",                    HandleItem),
+            };
+
+            router.AddRoutes(inventoryRoutes);
+        }
 
         // "GET", "/category/{category}",           HandleGetCategory
-        public static void HandleGetCategory(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        public void HandleGetCategory(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             WebServer.SetResponse(response, HttpStatusCode.OK, "OK " + request.RawUrl);
         }
-        public static void HandleCategory(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        public void HandleCategory(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             if (string.Compare(request.HttpMethod, "GET", true) == 0)
                 HandleGetCategory(request, requestParts, response);
@@ -29,11 +49,11 @@ namespace AIS
         }
 
         // "GET", "/category/{category}/children",  HandleGetCategoryChildren
-        public static void HandleGetCategoryChildren(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        public void HandleGetCategoryChildren(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             WebServer.SetResponse(response, HttpStatusCode.OK, "OK " + request.RawUrl);
         }
-        public static void HandleCategoryChildren(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        public void HandleCategoryChildren(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             if (string.Compare(request.HttpMethod, "GET", true) == 0)
                 HandleGetCategoryChildren(request, requestParts, response);
@@ -42,11 +62,11 @@ namespace AIS
         }
 
         // "GET", "/category/{category}/links",     HandleGetCategoryLinks
-        public static void HandleGetCategoryLinks(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        public void HandleGetCategoryLinks(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             WebServer.SetResponse(response, HttpStatusCode.OK, "OK " + request.RawUrl);
         }
-        public static void HandleCategoryLinks(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        public void HandleCategoryLinks(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             if (string.Compare(request.HttpMethod, "GET", true) == 0)
                 HandleGetCategory(request, requestParts, response);
@@ -55,11 +75,11 @@ namespace AIS
         }
 
         // "GET", "/category/{category}/items",     HandleGetCategoryItems
-        public static void HandleGetCategoryItems(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        public void HandleGetCategoryItems(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             WebServer.SetResponse(response, HttpStatusCode.OK, "OK " + request.RawUrl);
         }
-        public static void HandleCategoryItems(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        public void HandleCategoryItems(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             if (string.Compare(request.HttpMethod, "GET", true) == 0)
                 HandleGetCategory(request, requestParts, response);
@@ -68,11 +88,11 @@ namespace AIS
         }
 
         // "GET", "/category/{category}/categories",HandleGetCategoryCategories
-        public static void HandleGetCategoryCategories(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        public void HandleGetCategoryCategories(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             WebServer.SetResponse(response, HttpStatusCode.OK, "OK " + request.RawUrl);
         }
-        public static void HandleCategoryCategories(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        public void HandleCategoryCategories(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             if (string.Compare(request.HttpMethod, "GET", true) == 0)
                 HandleGetCategory(request, requestParts, response);
@@ -81,11 +101,11 @@ namespace AIS
         }
 
         // "GET", "/item/{item}",                   HandleGetItem
-        public static void HandleGetItem(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        public void HandleGetItem(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             WebServer.SetResponse(response, HttpStatusCode.OK, "OK " + request.RawUrl);
         }
-        public static void HandleItem(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        public void HandleItem(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             if (string.Compare(request.HttpMethod, "GET", true) == 0)
                 HandleGetCategory(request, requestParts, response);
