@@ -21,6 +21,9 @@
     <Reference Include="Aquiles.Core">
       <HintPath>Refs\Aquiles.Core.dll</HintPath>
     </Reference>
+    <Reference Include="InWorldz.Data.Inventory.Cassandra">
+      <HintPath>Refs\InWorldz.Data.Inventory.Cassandra.dll</HintPath>
+    </Reference>
     <Reference Include="LibreMetaverse">
       <HintPath>Refs\LibreMetaverse.dll</HintPath>
     </Reference>
@@ -29,6 +32,9 @@
     </Reference>
     <Reference Include="LibreMetaverse.Types">
       <HintPath>Refs\LibreMetaverse.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenSim.Data">
+      <HintPath>Refs\OpenSim.Data.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net">
       <HintPath>Refs\protobuf-net.dll</HintPath>
