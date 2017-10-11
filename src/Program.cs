@@ -12,14 +12,16 @@ namespace AIS
 
         static WebServerRoute[] routes =
         {
-            new WebServerRoute("GET", "/test/", GetResponse1),
-            new WebServerRoute("GET", "/test2/{arg}/", GetResponse2)
+            new WebServerRoute("GET", "/test/", GetTestResponse),
+            new WebServerRoute("GET", "/test2/{arg}/", GetGenericResponse),
+            new WebServerRoute("GET", "/test2/{arg}/{arg2}", GetGenericResponse),
+            new WebServerRoute("GET", "/test2/{arg}/{arg2}/{arg3}", GetGenericResponse),
         };
 
-        private static void GetResponse1(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        private static void GetTestResponse(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("<HTML><BODY><h1>First page 1.</h1><p>{0}</p><p></p>", DateTime.Now);
+            sb.AppendFormat("<HTML><BODY><h1>Sample Test Page</h1><p>{0}</p><p></p>", DateTime.Now);
             int x = 0;
             foreach(var part in requestParts)
             {
@@ -29,10 +31,10 @@ namespace AIS
             WebServer.SetResponse(response, sb.ToString());
         }
 
-        private static void GetResponse2(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
+        private static void GetGenericResponse(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("<HTML><BODY><h1>Second page 2.</h1><p>{0}</p><p></p>", DateTime.Now);
+            sb.AppendFormat("<HTML><BODY><h1>Generic Handler</h1><p>{0}</p><p></p>", DateTime.Now);
             int x = 0;
             foreach (var part in requestParts)
             {
