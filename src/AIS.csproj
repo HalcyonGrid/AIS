@@ -5,11 +5,19 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <StartupObject>AIS.Program</StartupObject>
     <NoWin32Manifest>true</NoWin32Manifest>
+    <Company>InWorldz LLC</Company>
+    <Authors>Halcyon Developers</Authors>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath></OutputPath>
+    <OutputPath>..\bin\</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="InWorldz.Data.Inventory.Cassandra">
+      <HintPath>..\Refs\InWorldz.Data.Inventory.Cassandra.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>
