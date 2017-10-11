@@ -3,6 +3,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using SimpleWebServer;
+using AIS;
 
 namespace AIS
 {
@@ -12,24 +13,18 @@ namespace AIS
 
         static WebServerRoute[] routes =
         {
-            new WebServerRoute("GET", "/test/", GetTestResponse),
-            new WebServerRoute("GET", "/test2/{arg}/", GetGenericResponse),
-            new WebServerRoute("GET", "/test2/{arg}/{arg2}", GetGenericResponse),
-            new WebServerRoute("GET", "/test2/{arg}/{arg2}/{arg3}", GetGenericResponse),
-        };
+            new WebServerRoute("ALL", "/category/{category}",           InventoryMethods.HandleCategory),
+            new WebServerRoute("ALL", "/category/{category}/children",  InventoryMethods.HandleCategoryChildren),
+            new WebServerRoute("ALL", "/category/{category}/links",     InventoryMethods.HandleCategoryLinks),
+            new WebServerRoute("ALL", "/category/{category}/items",     InventoryMethods.HandleCategoryItems),
+            new WebServerRoute("ALL", "/category/{category}/categories",InventoryMethods.HandleCategoryCategories),
+            new WebServerRoute("ALL", "/item/{item}",                   InventoryMethods.HandleItem),
 
-        private static void GetTestResponse(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("<HTML><BODY><h1>Sample Test Page</h1><p>{0}</p><p></p>", DateTime.Now);
-            int x = 0;
-            foreach(var part in requestParts)
-            {
-                sb.AppendFormat("<code>[{0}] is {1}</code>",x, part);
-            }
-            sb.Append("</BODY></HTML>");
-            WebServer.SetResponse(response, sb.ToString());
-        }
+            new WebServerRoute("GET", "/test/",                         GetGenericResponse),
+            new WebServerRoute("GET", "/test/{arg}",                    GetGenericResponse),
+            new WebServerRoute("GET", "/test/{arg}/{arg2}",             GetGenericResponse),
+            new WebServerRoute("GET", "/test/{arg}/{arg2}/{arg3}",      GetGenericResponse)
+        };
 
         private static void GetGenericResponse(HttpListenerRequest request, string[] requestParts, HttpListenerResponse response)
         {
@@ -56,6 +51,9 @@ namespace AIS
         static void Main(string[] args)
         {
             Console.CancelKeyPress += new ConsoleCancelEventHandler(CtrlBreakHandler);
+
+            Console.WriteLine("Avatar Inventory System (AISv3) API Server 0.1  [{0} at {1}]", 
+                    DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString());
 
             _router = new WebServerRouter(8123, routes);
 
