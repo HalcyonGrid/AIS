@@ -69,7 +69,10 @@ namespace SimpleWebServer
 
         private WebServerRoute RouteMatch(HttpListenerRequest request, out string[] matchesOut)
         {
-            string[] urlParts = ParsePathForParts(request.RawUrl);
+            int queryStart = request.RawUrl.IndexOf('?');
+            string pathToUse = (queryStart < 0) ? request.RawUrl : request.RawUrl.Substring(0, queryStart);
+            string[] urlParts = ParsePathForParts(pathToUse);
+
             foreach (var route in _routes)
             {
                 // HTTP request method must match or be "ALL" in the route.
