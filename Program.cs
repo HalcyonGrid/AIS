@@ -3,6 +3,7 @@ using System.Threading;
 using SimpleAPIServer;
 using log4net;
 using log4net.Config;
+using Nini.Config;
 
 namespace AIS
 {
@@ -14,6 +15,8 @@ namespace AIS
 
         static void Main(string[] args)
         {
+            ArgvConfigSource options = new ArgvConfigSource(args);
+
             // Initialize log4net
             XmlConfigurator.Configure();
 
@@ -24,7 +27,7 @@ namespace AIS
             APIRouter _router = new APIRouter(8123);
 
             // Add inventory-related API methods
-            InventoryAPI _inventoryMethods = new InventoryAPI();
+            InventoryAPI _inventoryMethods = new InventoryAPI(options);
             _inventoryMethods.AddRoutes(_router);
 
             // Now that the routes are added, start the router.

@@ -24,8 +24,18 @@ namespace AIS
 
         private IInventoryStorage _storage; // per-user specific storage reference
 
-        public InventoryAPI()
+        public InventoryAPI(ArgvConfigSource options)
         {
+            options.AddSwitch("Inventory", "local", "l");
+            string useLocal = options.Configs["Inventory"].Get("local");
+            if (useLocal != null)   // any value include "" will do
+            {
+                _cluster = Properties.LocalSettings.Default.cassandraCluster;
+                _connstring = Properties.LocalSettings.Default.coreConnStr;
+                m_log.Warn("Using LOCAL settings.");
+            }
+
+
             try
             {
                 _cassandraStorage = new InventoryStorage(_cluster);
