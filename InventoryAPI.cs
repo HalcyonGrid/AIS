@@ -9,9 +9,9 @@ using Nini.Config;
 
 namespace AIS
 {
-    class InventoryMethods
+    class InventoryAPI
     {
-        private static readonly ILog m_log = LogManager.GetLogger(typeof(InventoryMethods));
+        private static readonly ILog m_log = LogManager.GetLogger(typeof(InventoryAPI));
 
         static private string _cluster = Properties.Settings.Default.cassandraCluster;
         static private string _connstring = Properties.Settings.Default.coreConnStr;
@@ -24,7 +24,7 @@ namespace AIS
         private CassandraMigrationProviderSelector _selector;
         private LegacyMysqlInventoryStorage _legacy;
 
-        public InventoryMethods()
+        public InventoryAPI()
         {
         }
 

@@ -24,7 +24,7 @@ namespace AIS
             APIRouter _router = new APIRouter(8123);
 
             // Add inventory-related API methods
-            InventoryMethods _inventoryMethods = new InventoryMethods();
+            InventoryAPI _inventoryMethods = new InventoryAPI();
             _inventoryMethods.AddRoutes(_router);
 
             // Now that the routes are added, start the router.
