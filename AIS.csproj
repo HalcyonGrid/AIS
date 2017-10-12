@@ -33,35 +33,37 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aquiles.Cassandra10">
-      <HintPath>Refs\Aquiles.Cassandra10.dll</HintPath>
+    <Reference Include="C5, Version=1.1.1.0, Culture=neutral, PublicKeyToken=06a1b38866503b69, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Refs\C5.dll</HintPath>
     </Reference>
-    <Reference Include="Aquiles.Core">
-      <HintPath>Refs\Aquiles.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="InWorldz.Data.Inventory.Cassandra">
+    <Reference Include="InWorldz.Data.Inventory.Cassandra, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>Refs\InWorldz.Data.Inventory.Cassandra.dll</HintPath>
     </Reference>
-    <Reference Include="LibreMetaverse">
-      <HintPath>Refs\LibreMetaverse.dll</HintPath>
-    </Reference>
-    <Reference Include="LibreMetaverse.StructuredData">
-      <HintPath>Refs\LibreMetaverse.StructuredData.dll</HintPath>
-    </Reference>
-    <Reference Include="LibreMetaverse.Types">
-      <HintPath>Refs\LibreMetaverse.Types.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net">
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>Refs\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Nini">
+    <Reference Include="Nini, Version=1.1.0.0, Culture=neutral, PublicKeyToken=691faec150a7fa7b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>Refs\Nini.dll</HintPath>
     </Reference>
-    <Reference Include="OpenSim.Data">
-      <HintPath>Refs\OpenSim.Data.dll</HintPath>
+    <Reference Include="OpenMetaverse, Version=0.9.4.28578, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Refs\OpenMetaverse.dll</HintPath>
     </Reference>
-    <Reference Include="protobuf-net">
-      <HintPath>Refs\protobuf-net.dll</HintPath>
+    <Reference Include="OpenMetaverse.StructuredData, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Refs\OpenMetaverse.StructuredData.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenMetaverseTypes, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Refs\OpenMetaverseTypes.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenSim.Data, Version=0.6.5.3716, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Refs\OpenSim.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
