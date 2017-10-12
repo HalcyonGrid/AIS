@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AIS.Properties" GeneratedClassName="LocalSettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="cassandraCluster" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">local</Value>
+    </Setting>
+    <Setting Name="coreConnStr" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=127.0.0.1;Database=inworldz;User ID=root;password=secret;Min Pool Size=5;</Value>
+    </Setting>
+    <Setting Name="encKeyConnStr" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=127.0.0.1;Database=inworldz;User ID=root;password=secret;Min Pool Size=5;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AIS.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="cassandraCluster" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">iwproduction</Value>
+    </Setting>
+    <Setting Name="coreConnStr" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=productiondb.inworldz.com;Database=inworldz;User ID=grid;Password=secret;</Value>
+    </Setting>
+    <Setting Name="encKeyConnStr" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=productiondb;Database=SSInventoryBackup;User ID=invbak;Password=secret;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
