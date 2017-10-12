@@ -125,7 +125,7 @@ namespace SimpleWebServer
                     }
 
                     // check if variable placeholder
-                    if (routePart.StartsWith('{') && routePart.EndsWith('}'))
+                    if (routePart.StartsWith("{") && routePart.EndsWith("}"))
                     {
                         // it's a match on a variable part
                         continue;
