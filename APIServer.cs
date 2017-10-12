@@ -2,17 +2,20 @@
 using System.Net;
 using System.Threading;
 using System.Text;
+using log4net;
 
-namespace SimpleWebServer
+namespace SimpleAPIServer
 {
     public delegate void WebHandler(HttpListenerRequest request, HttpListenerResponse response);
 
-    public class WebServer
+    public class APIServer
     {
+        private static readonly ILog m_log = LogManager.GetLogger(typeof(APIServer));
+
         private readonly HttpListener _listener = new HttpListener();
         private readonly WebHandler _handler;
 
-        public WebServer(WebHandler handler, string[] prefixes)
+        public APIServer(WebHandler handler, string[] prefixes)
         {
             if (!HttpListener.IsSupported)
                 throw new NotSupportedException("Unsupported platform.");
@@ -58,12 +61,12 @@ namespace SimpleWebServer
                 sb.AppendFormat("<div><code>[{0}] is {1}</code></div>", x++, part);
             }
             sb.Append("</BODY></HTML>");
-            WebServer.SetResponse(response, sb.ToString());
+            APIServer.SetResponse(response, sb.ToString());
         }
 
         protected void CtrlBreakHandler(object sender, ConsoleCancelEventArgs args)
         {
-            Console.WriteLine("Shutdown requested.");
+            m_log.Info("Shutdown requested.");
             args.Cancel = true;    // don't pass the key on
             Stop();
         }
@@ -90,14 +93,14 @@ namespace SimpleWebServer
                             {
                                 _handler(ctx.Request, ctx.Response);
 
-                                // Log the request to the console.
-                                ConsoleColor prevColor = Console.ForegroundColor;
-                                Console.ForegroundColor = (ctx.Response.StatusCode > 299) ? ConsoleColor.Red : ConsoleColor.Green;
-                                Console.WriteLine("[" + ctx.Response.StatusCode + "]: " + ctx.Request.RawUrl);
-                                Console.ForegroundColor = prevColor;
+                                // Log the request
+                                if (ctx.Response.StatusCode > 299)
+                                    m_log.WarnFormat("[{0}]: {1}", ctx.Response.StatusCode, ctx.Request.RawUrl);
+                                else
+                                    m_log.InfoFormat("[{0}]: {1}", ctx.Response.StatusCode, ctx.Request.RawUrl);
                             }
                             catch (Exception e) {
-                                Console.WriteLine("Exception: " + e.Message);
+                                m_log.Error("Exception: " + e.Message);
                             } // suppress any exceptions
                             finally
                             {
