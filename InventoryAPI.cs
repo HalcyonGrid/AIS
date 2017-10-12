@@ -18,14 +18,25 @@ namespace AIS
 
         private UUID _Id;
 
-        private IInventoryStorage _storage;
-
         private InventoryStorage _cassandraStorage;
         private CassandraMigrationProviderSelector _selector;
         private LegacyMysqlInventoryStorage _legacy;
 
+        private IInventoryStorage _storage; // per-user specific storage reference
+
         public InventoryAPI()
         {
+            try
+            {
+                _cassandraStorage = new InventoryStorage(_cluster);
+                _legacy = new LegacyMysqlInventoryStorage(_connstring);
+                _selector = new CassandraMigrationProviderSelector(true, _connstring, _cassandraStorage, _legacy);
+                m_log.InfoFormat("Cassandra support on '{0}' enabled and ready.", _cluster);
+            }
+            catch (Exception e)
+            {
+                m_log.ErrorFormat("Unable to connect to cassandra cluster: {0}", e);
+            }
         }
 
         public void AddRoutes(APIRouter router)
